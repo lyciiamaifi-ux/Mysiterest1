@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Belle Table — Restaurant</title>
+<meta name="description" content="Site vitrine restaurant — démonstration portfolio">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --surface-2: #242424;
+    --cream: #f5f0e8;
+    --gold: #c9a96e;
+    --gold-light: #dfc99a;
+    --text: #f5f0e8;
+    --muted: #9a9590;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 20px 60px rgba(0,0,0,0.35);
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* DEMO BANNER */
+  .demo-banner {
+    background: linear-gradient(90deg, #1e3a5f, #2d5a87);
+    color: #fff;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+  .demo-banner span { opacity: 0.85; font-weight: 400; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; width: 100%;
+    background: rgba(15,15,15,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(201,169,110,0.12);
+    z-index: 100;
+    padding: 18px clamp(20px, 5vw, 48px);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+  }
+  .nav-links { display: flex; gap: clamp(20px, 4vw, 36px); list-style: none; align-items: center; }
+  .nav-links a {
+    text-decoration: none; color: var(--muted);
+    font-size: 14px; font-weight: 500;
+    transition: color var(--transition);
+  }
+  .nav-links a:hover { color: var(--cream); }
+  .nav-cta {
+    background: var(--gold) !important;
+    color: var(--bg) !important;
+    padding: 10px 22px !important;
+    border-radius: 999px !important;
+    font-weight: 600 !important;
+    transition: transform var(--transition), box-shadow var(--transition) !important;
+  }
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(201,169,110,0.35);
+    color: var(--bg) !important;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: calc(100vh - 42px);
+    background:
+      linear-gradient(160deg, rgba(15,15,15,0.75) 0%, rgba(15,15,15,0.45) 50%, rgba(15,15,15,0.8) 100%),
+      url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=80') center/cover no-repeat;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 60px 24px;
+    position: relative;
+  }
+  .hero-content { max-width: 780px; animation: fadeUp 1s ease both; }
+  .hero-badge {
+    display: inline-block;
+    border: 1px solid rgba(201,169,110,0.4);
+    color: var(--gold-light);
+    padding: 6px 18px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    background: rgba(201,169,110,0.08);
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(44px, 8vw, 80px);
+    line-height: 1.08;
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold-light); }
+  .hero p {
+    font-size: clamp(16px, 2.5vw, 19px);
+    font-weight: 300;
+    color: rgba(245,240,232,0.75);
+    max-width: 520px;
+    margin: 0 auto 40px;
+  }
+  .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 15px 32px; border-radius: 999px;
+    text-decoration: none; font-size: 14px; font-weight: 600;
+    transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+    cursor: pointer; border: none; font-family: inherit;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary { background: var(--gold); color: var(--bg); }
+  .btn-primary:hover { box-shadow: 0 8px 32px rgba(201,169,110,0.4); }
+  .btn-secondary {
+    background: rgba(255,255,255,0.08);
+    color: var(--cream);
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(8px);
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.14); }
+
+  /* SECTIONS */
+  section { padding: clamp(64px, 10vw, 100px) clamp(20px, 5vw, 48px); }
+  .section-label {
+    display: block; text-align: center;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 5vw, 48px);
+    text-align: center; margin-bottom: 48px;
+    font-weight: 400;
+  }
+
+  /* ABOUT */
+  .about { background: var(--surface); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 6vw, 72px);
+    align-items: center; max-width: 1100px; margin: 0 auto;
+  }
+  .about-img-wrap {
+    position: relative; border-radius: var(--radius); overflow: hidden;
+    aspect-ratio: 4/5;
+  }
+  .about-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .about-img-wrap:hover img { transform: scale(1.04); }
+  .about-img-wrap::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(15,15,15,0.4), transparent 50%);
+  }
+  .about-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4vw, 40px);
+    margin-bottom: 20px; font-weight: 400;
+  }
+  .about-text p {
+    color: var(--muted); line-height: 1.85;
+    font-size: 15px; margin-bottom: 16px;
+  }
+  .about-stats {
+    display: flex; gap: 32px; margin-top: 32px;
+    padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat strong {
+    display: block; font-family: 'Cormorant Garamond', serif;
+    font-size: 36px; color: var(--gold); font-weight: 600; line-height: 1;
+  }
+  .stat span { font-size: 12px; color: var(--muted); letter-spacing: 0.5px; }
+
+  /* MENU */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px; max-width: 1100px; margin: 0 auto;
+  }
+  .menu-card {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  }
+  .menu-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(201,169,110,0.25);
+    box-shadow: var(--shadow);
+  }
+  .menu-card img {
+    width: 100%; height: 210px; object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .menu-card:hover img { transform: scale(1.05); }
+  .menu-card .img-wrap { overflow: hidden; }
+  .menu-info { padding: 22px 24px 26px; }
+  .menu-tag {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 8px;
+  }
+  .menu-info h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; margin-bottom: 8px; font-weight: 600;
+  }
+  .menu-info p { color: var(--muted); font-size: 13px; line-height: 1.65; margin-bottom: 16px; }
+  .price { color: var(--gold-light); font-weight: 600; font-size: 16px; }
+
+  /* CONTACT */
+  .contact { background: var(--surface); }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 6vw, 60px);
+    max-width: 1000px; margin: 0 auto;
+  }
+  .contact-card {
+    background: var(--surface-2);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    padding: 36px;
+  }
+  .contact-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; margin-bottom: 8px; font-weight: 400;
+  }
+  .contact-note {
+    color: var(--muted); font-size: 14px;
+    line-height: 1.65; margin-bottom: 28px;
+    padding: 12px 16px;
+    background: rgba(201,169,110,0.08);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--gold);
+  }
+  .contact-item {
+    display: flex; gap: 16px; align-items: flex-start;
+    margin-bottom: 22px;
+  }
+  .icon-box {
+    width: 44px; height: 44px;
+    background: rgba(201,169,110,0.12);
+    border: 1px solid rgba(201,169,110,0.2);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 18px;
+  }
+  .contact-item .label { font-weight: 600; font-size: 13px; margin-bottom: 3px; }
+  .contact-item .value { color: var(--muted); font-size: 14px; }
+  .contact-item .value.demo { color: var(--gold-light); font-style: italic; }
+
+  .whatsapp-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #25D366; color: #fff;
+    padding: 14px 28px; border-radius: 999px;
+    text-decoration: none; font-size: 14px; font-weight: 600;
+    margin-top: 8px; border: none; cursor: pointer; font-family: inherit;
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .whatsapp-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(37,211,102,0.35);
+  }
+
+  .map-box {
+    border-radius: var(--radius); height: 100%; min-height: 360px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .map-box iframe { width: 100%; height: 100%; border: 0; display: block; min-height: 360px; }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(6px);
+    z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    opacity: 0; visibility: hidden;
+    transition: opacity var(--transition), visibility var(--transition);
+  }
+  .modal-overlay.open { opacity: 1; visibility: visible; }
+  .modal {
+    background: var(--surface-2);
+    border: 1px solid rgba(201,169,110,0.2);
+    border-radius: var(--radius);
+    padding: 40px;
+    max-width: 420px; width: 100%;
+    text-align: center;
+    transform: translateY(20px) scale(0.97);
+    transition: transform var(--transition);
+    box-shadow: var(--shadow);
+  }
+  .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+  .modal-icon { font-size: 40px; margin-bottom: 16px; }
+  .modal h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; margin-bottom: 12px; font-weight: 400;
+  }
+  .modal p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 28px; }
+  .modal-close {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--muted);
+    padding: 12px 28px; border-radius: 999px;
+    cursor: pointer; font-family: inherit; font-size: 14px;
+    transition: border-color var(--transition), color var(--transition);
+  }
+  .modal-close:hover { border-color: var(--gold); color: var(--cream); }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    color: var(--muted);
+    text-align: center;
+    padding: 32px 24px;
+    font-size: 13px;
+  }
+  footer span { color: var(--gold); }
+  footer .demo-tag {
+    display: inline-block; margin-top: 8px;
+    font-size: 11px; letter-spacing: 1px;
+    text-transform: uppercase; opacity: 0.6;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links li:not(:last-child) { display: none; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    .about-img-wrap { aspect-ratio: 16/10; }
+    .about-stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-banner">
+  🎨 Site vitrine — démonstration portfolio <span>· contacts fictifs</span>
+</div>
+
+<nav>
+  <div class="logo">La Belle Table</div>
+  <ul class="nav-links">
+    <li><a href="#about">Notre histoire</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#" class="nav-cta demo-reserve">Réserver</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-badge">Alger · Cuisine française</span>
+    <h1>Une expérience<br><em>culinaire</em> unique</h1>
+    <p>Cuisine française raffinée au cœur de la ville, dans une atmosphère élégante et chaleureuse.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn btn-primary">Voir le menu</a>
+      <button type="button" class="btn btn-secondary demo-reserve">Réserver sur WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <span class="section-label">À propos</span>
+  <h2 class="section-title">Notre histoire</h2>
+  <div class="about-grid">
+    <div class="about-img-wrap">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80" alt="Notre restaurant" />
+    </div>
+    <div class="about-text">
+      <h2>L'art de recevoir depuis 2010</h2>
+      <p>La Belle Table accueille ses convives dans une atmosphère chaleureuse et élégante. Notre chef passionné compose chaque jour une cuisine de saison qui met à l'honneur les meilleurs produits locaux.</p>
+      <p>Nous croyons que chaque repas est une occasion de créer des souvenirs inoubliables. C'est pourquoi nous mettons tout notre cœur dans chaque assiette.</p>
+      <div class="about-stats">
+        <div class="stat"><strong>15+</strong><span>Années d'expérience</span></div>
+        <div class="stat"><strong>40+</strong><span>Plats au menu</span></div>
+        <div class="stat"><strong>4.8</strong><span>Note moyenne</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <span class="section-label">Carte</span>
+  <h2 class="section-title">Notre Menu</h2>
+  <div class="menu-grid">
+    <div class="menu-card">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=500&q=80" alt="Entrée" /></div>
+      <div class="menu-info">
+        <div class="menu-tag">Entrée</div>
+        <h3>Salade de chèvre chaud</h3>
+        <p>Jeunes pousses, noix caramélisées, miel et vinaigre balsamique</p>
+        <span class="price">1 200 DA</span>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=80" alt="Plat principal" /></div>
+      <div class="menu-info">
+        <div class="menu-tag">Plat</div>
+        <h3>Filet de bœuf grillé</h3>
+        <p>Sauce au poivre, gratin dauphinois et légumes de saison</p>
+        <span class="price">2 800 DA</span>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&q=80" alt="Dessert" /></div>
+      <div class="menu-info">
+        <div class="menu-tag">Dessert</div>
+        <h3>Fondant au chocolat</h3>
+        <p>Cœur coulant, glace vanille maison et coulis de framboises</p>
+        <span class="price">800 DA</span>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=500&q=80" alt="Plat 2" /></div>
+      <div class="menu-info">
+        <div class="menu-tag">Plat</div>
+        <h3>Saumon en croûte d'herbes</h3>
+        <p>Purée de céleri, sauce citron-aneth et asperges</p>
+        <span class="price">2 400 DA</span>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=500&q=80" alt="Plat 3" /></div>
+      <div class="menu-info">
+        <div class="menu-tag">Plat</div>
+        <h3>Tagine d'agneau</h3>
+        <p>Pruneaux, amandes grillées, couscous aux légumes</p>
+        <span class="price">2 600 DA</span>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500&q=80" alt="Dessert 2" /></div>
+      <div class="menu-info">
+        <div class="menu-tag">Dessert</div>
+        <h3>Crème brûlée à la vanille</h3>
+        <p>Vanille de Madagascar, caramel croustillant</p>
+        <span class="price">700 DA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <span class="section-label">Localisation</span>
+  <h2 class="section-title">Nous trouver</h2>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <h3>Informations pratiques</h3>
+      <p class="contact-note">Les réservations se font par téléphone ou WhatsApp — pas de réservation en ligne.</p>
+      <div class="contact-item">
+        <div class="icon-box">📍</div>
+        <div>
+          <p class="label">Adresse</p>
+          <p class="value">12 Rue Didouche Mourad, Alger Centre</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="icon-box">🕐</div>
+        <div>
+          <p class="label">Horaires</p>
+          <p class="value">Lun–Sam : 12h00 – 23h00<br>Dimanche : 12h00 – 22h00</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="icon-box">📞</div>
+        <div>
+          <p class="label">Téléphone / WhatsApp</p>
+          <p class="value demo">+213 XX XX XX XX (exemple)</p>
+        </div>
+      </div>
+      <button type="button" class="whatsapp-btn demo-reserve">💬 Réserver sur WhatsApp</button>
+    </div>
+    <div class="map-box">
+      <iframe
+        src="https://www.google.com/maps?q=12+Rue+Didouche+Mourad,+Alger+Centre,+Alg%C3%A9rie&output=embed"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Localisation de La Belle Table">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 <span>La Belle Table</span> — Tous droits réservés</p>
+  <p class="demo-tag">Projet de démonstration · Portfolio</p>
+</footer>
+
+<div class="modal-overlay" id="demoModal">
+  <div class="modal">
+    <div class="modal-icon">💬</div>
+    <h3>Réservation par WhatsApp</h3>
+    <p>Ceci est un site vitrine de démonstration. Dans un vrai projet, ce bouton ouvrirait une conversation WhatsApp pour réserver une table.</p>
+    <button type="button" class="modal-close" id="closeModal">Compris</button>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('demoModal');
+  const closeBtn = document.getElementById('closeModal');
+
+  document.querySelectorAll('.demo-reserve').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      modal.classList.add('open');
+    });
+  });
+
+  closeBtn.addEventListener('click', function () {
+    modal.classList.remove('open');
+  });
+
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) modal.classList.remove('open');
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') modal.classList.remove('open');
+  });
+</script>
+
+</body>
+</html>
